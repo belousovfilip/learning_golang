@@ -15,16 +15,46 @@ func TestList(t *testing.T) {
 		require.Nil(t, l.Back())
 	})
 
+	t.Run("removeLast", func(t *testing.T) {
+		l := NewList()
+		l.PushBack(20)
+		l.PushFront(10)
+		l.PushBack(30)
+		length := l.Len()
+		l.Remove(l.Back())
+		require.Equal(t, length-1, l.Len())
+		require.Equal(t, 20, l.Back().Value)
+		require.Nil(t, l.Back().Next)
+	})
+
+	t.Run("removeFirst", func(t *testing.T) {
+		l := NewList()
+		l.PushBack(20)
+		l.PushFront(10)
+		l.PushBack(30)
+		length := l.Len()
+		l.Remove(l.Front())
+		require.Equal(t, length-1, l.Len())
+		require.Equal(t, 20, l.Front().Value)
+		require.Nil(t, l.Front().Prev)
+	})
+
+	t.Run("removeMiddle", func(t *testing.T) {
+		l := NewList()
+		l.PushBack(20)
+		l.PushFront(10)
+		l.PushBack(30)
+		length := l.Len()
+		l.Remove(l.Front().Next)
+		require.Equal(t, length-1, l.Len())
+		require.Equal(t, 10, l.Front().Value)
+		require.Equal(t, 30, l.Back().Value)
+	})
+
 	t.Run("complex", func(t *testing.T) {
 		l := NewList()
-
 		l.PushFront(10) // [10]
-		l.PushBack(20)  // [10, 20]
 		l.PushBack(30)  // [10, 20, 30]
-		require.Equal(t, 3, l.Len())
-
-		middle := l.Front().Next // 20
-		l.Remove(middle)         // [10, 30]
 		require.Equal(t, 2, l.Len())
 
 		for i, v := range [...]int{40, 50, 60, 70, 80} {
