@@ -15,7 +15,7 @@ func (l *ListItem) isLast() bool {
 }
 
 func (l *ListItem) isInside() bool {
-	return l.isLast() == false && l.isFirst() == false
+	return !l.isLast() && !l.isFirst()
 }
 
 func NewListItem(i interface{}) *ListItem {

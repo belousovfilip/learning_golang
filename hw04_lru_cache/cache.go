@@ -16,7 +16,7 @@ type lruCache struct {
 
 func (l *lruCache) Set(key Key, value interface{}) bool {
 	element, exists := l.items[key]
-	if exists == true {
+	if exists {
 		l.queue.MoveToFront(element)
 		element.Value.(*CacheItem).value = value
 		return true
@@ -34,7 +34,7 @@ func (l *lruCache) Set(key Key, value interface{}) bool {
 
 func (l *lruCache) Get(key Key) (interface{}, bool) {
 	element, exists := l.items[key]
-	if exists == false {
+	if !exists {
 		return nil, false
 	}
 	l.queue.MoveToFront(element)
